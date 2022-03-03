@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <style>
+    body {
+      padding: 100px;
+      width: 1000px;
+      margin: auto;
+      text-align: left;
+      font-weight: 300;
+      font-family: 'Open Sans', sans-serif;
+      color: #121212;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+  </style>
+  <title>CS 184 Mesh Editor</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+  <h1 align="middle">CS 184: Computer Graphics and Imaging, Spring 2022</h1>
+  <h1 align="middle">Project 2: Mesh Editor</h1>
+  <h2 align="middle">Justin Richey, Orion Lehrmann CS184</h2>
+
+  <br><br>
+
+  <div>
+
+    <h2 align="middle">Overview</h2>
+    <p>[Intro to overview and first part of project]. Using edge flipping and splitting, we also used loop subdivision to smooth the curves of meshes. By forming more edges between existing edges, we could retain the original shape of the mesh while getting more accuracy/smoothness between vertices. While this is helpful at times, we learned about the undesired effects of subdivision when there is an intended sharp edge. We explored how to prevent the sharp edge from becoming smooth like the rest of the mesh. </p>
+
+    <h2 align="middle">Section I: Bezier Curves and Surfaces</h2>
+
+    <h3 align="middle">Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
+
+    <p>De Castelijau’s algorithm helps us find the Bezier curve since many of the things in graphics need smooth shapes rather than shapes like triangles and squares. The algorithm is a recursive algorithm that takes control points, and linear interpolates points proportional to a parameter t between the two points. The ratio is t:1-t for the lengths of the line segments created by the split of the new point we find. Then, we connect the new points we find, and start over the process on the new control points. Once there is only 1 point left, we return that since we’ve reached the base case of the recursion. We implemented it by creating a function that runs one step of the algorithm with a base case check, and a new Vector2D which we fill up as we LERP the points we are given with the float “t” that is a variable in the bezier curve class. 
+    </p>
+
+    <div align="middle">
+      <table style="width=100%">
+        <tr>
+          <td>
+            <img src="images/P1/one.png" align="middle" width="400px" />
+            <figcaption align="middle">Before subdivision</figcaption>
+          </td>
+          <td>
+            <img src="images/P1/two.png" align="middle" width="400px" />
+            <figcaption align="middle">1st subdivision</figcaption>
+          </td>
+        </tr>
+        <br>
+        <tr>
+          <td>
+            <img src="images/P1/three.png" align="middle" width="400px" />
+            <figcaption align="middle">2nd subdivision</figcaption>
+          </td>
+          <td>
+            <img src="images/P1/four.png" align="middle" width="400px" />
+            <figcaption align="middle">3rd subdivision</figcaption>
+          </td>
+        </tr>
+        <br>
+        <tr>
+          <td>
+            <img src="images/P1/five.png" align="middle" width="400px" />
+            <figcaption align="middle">4th subdivision</figcaption>
+          </td>
+          <td>
+            <img src="images/P1/six.png" align="middle" width="400px" />
+            <figcaption align="middle">5th subdivision</figcaption>
+          </td>
+        </tr>
+        <br>
+        <tr>
+          <td>
+            <img src="images/P1/seven.png" align="middle" width="400px" />
+            <figcaption align="middle">6th subdivision w/ Bezier Curve</figcaption>
+          </td>
+          <td>
+            <img src="images/P1/changeControl.png" align="middle" width="400px" />
+            <figcaption align="middle">Changing control points and t</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+    <h3 align="middle">Part 2: Bezier surfaces with separable 1D de Casteljau subdivision</h3>
+
+
+
+    <h2 align="middle">Section II: Sampling</h2>
+
+    <h3 align="middle">Part 3: Average normals for half-edge meshes</h3>
+
+
+    <h3 align="middle">Part 4: Half-edge flip</h3>
+
+
+    <h3 align="middle">Part 5: Half-edge split</h3>
+
+    <p>We implemented edge split by first drawing a picture of a simple mesh and labeling half-edges and vertices. We walked around the edges of our simple mesh and recorded the variables that we would then input into setNeighbors. We created three new edges, three new faces, six new half-edges, and a middle vertex that connected the four triangles. For the fourth edge, we reassigned values from the input edge. In addition to setting the proper values for the half-edges, we made sure that the corresponding face/edge/vertex variables correctly referred back to the half-edges. We also set isNew to true for two of the edges (that compose the new line going through the previous two triangles) for use in loop subdivision, despite there being three new edges.</p>
+
+    <div align="middle">
+      <table style="width=100%">
+        <tr>
+          <td>
+            <img src="images/beforesplits.png" align="middle" width="500px" />
+            <figcaption align="middle">Before edge splits.</figcaption>
+          </td>
+          <td>
+            <img src="images/1split.png" align="middle" width="500px" />
+            <figcaption align="middle">An edge split.</figcaption>
+          </td>
+        </tr>
+        <br>
+        <tr>
+          <td>
+            <img src="images/2split.png" align="middle" width="500px" />
+            <figcaption align="middle">Another edge split.</figcaption>
+          </td>
+          <td>
+            <img src="images/manysplits.png" align="middle" width="500px" />
+            <figcaption align="middle">Many edge splits.</figcaption>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src="images/flipsplitbefore.png" align="middle" width="500px" />
+            <figcaption align="middle">Before edge splits and flips.</figcaption>
+          </td>
+          <td>
+            <img src="images/flipsplit.png" align="middle" width="500px" />
+            <figcaption align="middle">After edge splits and flips.</figcaption>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p>Debugging wasn’t very eventful, although for a while we tried to build out the function without a visual. This didn’t end up working out, so we drew two triangles side by side on a piece of paper and labeled attributes (as we mentioned previously). Then the function became easier to understand and quicker to write. Also, we previously ran into some issues with disappearing faces; we hadn’t thought about setting the corresponding half-edge value for the faces that we assigned to the half-edges.</p>
+
+
+    <h3 align="middle">Part 6: Loop subdivision for mesh upsampling</h3>
+
+    <p>
+      We used the recommended steps for upsampling. First, we iterated through all the vertices and calculated the new positions for original vertices (stored in newPosition of each vertex). Then, we iterated through all of the edges and calculated the positions for the new vertices that would come from splitting the edges. We stored these positions in the edges' newPosition. At this point, nothing changed in our mesh; we had just calculated and stored positions. Then, we iterated through all the edges, splitting when the edge connected two old vertices (to make sure we were only splitting along the original mesh). Next, we looped through all edges, checking if the edge was new and connected an old and new vertex. Finally, we set the positions to the values we calculated earlier and reset isNew values so that future iterations would work.
+    </p>
+
+    <div align="middle">
+      <table style="width=100%">
+        <tr>
+          <td>
+            <img src="images/edges1.png" align="middle" width="500px" />
+            <figcaption align="middle">Before loop subdivision.</figcaption>
+          </td>
+          <td>
+            <img src="images/edges2.png" align="middle" width="500px" />
+            <figcaption align="middle">One iteration.</figcaption>
+          </td>
+        </tr>
+        <br>
+        <tr>
+          <td>
+            <img src="images/edges3.png" align="middle" width="500px" />
+            <figcaption align="middle">Multiple iterations.</figcaption>
+          </td>
+      </table>
+    </div>
+
+    <p>
+      <br/>
+      Sharp edges seem to lose their definition and become rounded as the number of iterations increase. We can reduce the effect by creating more vertices from pre-splitting and defining the outline of the shape more accurately.
+    </p>
+
+    <div align="middle">
+      <table style="width=100%">
+        <tr>
+          <td>
+            <img src="images/cube.png" align="middle" width="400px" />
+            <figcaption align="middle">Cube with pre-processing after multiple iterations of loop subdivision.</figcaption>
+          </td>
+          <td>
+            <img src="images/cubegrey.png" align="middle" width="400px" />
+            <figcaption align="middle">Another view of the same cube.</figcaption>
+          </td>
+        </tr>
+        <br>
+      </table>
+    </div>
+
+    <p>The rounding of the cube occurs because it’s defined by a few, sparse vertices. The positions of new vertices in subdivision depend on the distance between these vertices (as seen in the given equations for vertex positioning). With so few vertices and so much distance between them, the cube shape will be lost as new edges ‘undercut’ and eventually smooth the sharp edges. To prevent this, we can add more vertices to better define the cube shape. This will cause our loop subdivision algorithm to form a curve between more densely packed vertices, which will end up producing a straighter line/flatter surface for the faces. Ideally, we would add evenly spaced vertices on each face of the cube, forming a grid shape. Instead, we approximated that by splitting many edges on the faces of the cube.</p>
+
+
+    <h2 align="middle">Section III: Optional Extra Credit</h2>
+    <p>If you are not participating in the optional mesh competition, don't worry about this section!</p>
+
+    <h3 align="middle">Part 7: Design your own mesh!</h3>
+
+</body>
+
+</html>
