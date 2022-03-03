@@ -142,10 +142,32 @@
       </table>
     </div>
 
-    <p>Debugging wasn’t very eventful, although for a while we tried to build out the function without a visual. This didn’t end up working out, so we drew two triangles side by side on a piece of paper and labeled attributes (as we mentioned previously). Then the function became easier to understand and quicker to write. Also, we previously ran into some issues with disappearing faces; we hadn’t thought about setting the corresponding half-edge value for the faces that we assigned to the half-edges.</p>
-
 
     <h3 align="middle">Part 4: Half-edge flip</h3>
+
+    <p>We implemented the edge flip operation by finding all of the vertices and half edges and assigning them to variables. We then reassign the variable to the proper points if needed. We basically just needed to change the edge, halfedge, vertex, face to the correct ones for the edge that we are flipping. Then we change the variables like half edges, vertices, halfedges, and faces that depend on the flipped edge. We also check before all of this whether or not the edge is a boundary. If it is, we should not continue and just return then.</p>
+
+	<div align="middle">
+	  <table style="width=100%">
+	    <tr>
+	      <td>
+	        <img src="images/P4/Before.png" align="middle" width="400px"/>
+	        <figcaption align="middle">Before Edge Flip</figcaption>
+	      </td>
+	      <td>
+	        <img src="images/P4/AfterP1.png" align="middle" width="400px"/>
+	        <figcaption align="middle">One Edge Flip</figcaption>
+	      </td>
+	    </tr>
+	    <br>
+	    <tr>
+	      <td>
+	        <img src="images/P4/AfterP2.png" align="middle" width="400px"/>
+	        <figcaption align="middle">Multiple Edge Flips</figcaption>
+	      </td>
+	    </tr>
+	  </table>
+	</div>
 
 
     <h3 align="middle">Part 5: Half-edge split</h3>
@@ -188,7 +210,7 @@
       </table>
     </div>
 
-    <p>Debugging wasn’t very eventful, although for a while we tried to build out the function without a visual. This didn’t end up working out, so we drew two triangles side by side on a piece of paper and labeled attributes (as we mentioned previously). Then the function became easier to understand and quicker to write. Also, we previously ran into some issues with disappearing faces; we hadn’t thought about setting the corresponding half-edge value for the faces that we assigned to the half-edges.</p>
+    <p>At first the bugs were mostly created by complexities of too many variables to keep track of. So by narrowing it down to the most necessary variables and limiting the amount of new variables we introduced, we were able to hone into the correct answer.</p>
 
 
     <h3 align="middle">Part 6: Loop subdivision for mesh upsampling</h3>
