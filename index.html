@@ -97,6 +97,23 @@
 
     <h3 align="middle">Part 2: Bezier surfaces with separable 1D de Casteljau subdivision</h3>
 
+    <p>To do Bezier Surfaces we are basically calculating bezier curves of 4 curves. We have a helper function evaluateStep that does the LERP for one step and returns the new points after one step of the algorithm. This is used within evaluate1D by recursion with the use of evaluateStep as the input vector for the next function call. The base case is when there is 1 point left- in which this is the final result of the algorithm. We use this function for Bezier Surfaces in the evaluate function where we run the algorithm using evaluate1D on the 4 curves in the “u” direction, then we run the algorithm using evaluate1D on the 4 results- treating them as the new control points- in the “v” direction.</p>
+
+	<div align="middle">
+	  <table style="width=100%">
+	    <tr>
+	      <td>
+	        <img src="images/P2/withWire.png" align="middle" width="400px"/>
+	        <figcaption align="middle">teapot.bez with wire frame</figcaption>
+	      </td>
+	      <td>
+	        <img src="images/P2/withOutWire.png" align="middle" width="400px"/>
+	        <figcaption align="middle">teapot.bez without wire frame</figcaption>
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+
 
 
     <h2 align="middle">Section II: Sampling</h2>
